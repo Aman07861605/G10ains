@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Highlighted Names</h3>
+<div id="output"></div>
+
+<script>
+let names = ["Aman", "Riya", "Karan", "Neha", "Arjun"];
+
+// filter() → names longer than 4 letters
+let longNames = names.filter(name => name.length > 4);
+
+// map() → convert to uppercase
+let upperNames = longNames.map(name => name.toUpperCase());
+
+let i = 0;
+
+function showNames() {
+    if (i < upperNames.length) {
+        document.getElementById("output").innerHTML += upperNames[i] + "<br>";
+        i++;
+        setTimeout(showNames, 1000); // show every 1 sec
+    }
+}
+
+showNames();
+</script>
+
+</body>
+</html>

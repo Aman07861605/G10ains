@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Shop</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f1f3f6;
+        }
+
+        header {
+            background: #2874f0;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 22px;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+        }
+
+        .filters {
+            width: 250px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .products {
+            flex: 1;
+            margin-left: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background: #2874f0;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>CSEians Online Shopping</header>
+
+<div class="container">
+
+   
+    <div class="filters">
+        <h3>Filters</h3>
+
+        <b>Brand</b><br>
+        <input type="checkbox" value="Samsung"> Samsung <br>
+        <input type="checkbox" value="Apple"> Apple <br>
+        <input type="checkbox" value="Realme"> Realme <br><br>
+
+        <b>Max Price</b>
+        <input type="number" id="priceFilter" placeholder="Enter max price"><br><br>
+
+        <b>Minimum Rating</b>
+        <select id="ratingFilter">
+            <option value="0">All</option>
+            <option value="3">3★ & above</option>
+            <option value="4">4★ & above</option>
+        </select><br><br>
+
+        <b>Sort By</b>
+        <select id="sortOption">
+            <option value="default">Default</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+        </select><br><br>
+
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+
+    <!-- Product List -->
+    <div class="products" id="productList"></div>
+
+</div>
+
+<script>
+const products = [
+    { name: "Samsung Galaxy M14", brand: "Samsung", price: 15000, rating: 4 },
+    { name: "iPhone 14", brand: "Apple", price: 70000, rating: 5 },
+    { name: "Realme Narzo", brand: "Realme", price: 12000, rating: 3 },
+    { name: "Samsung S23", brand: "Samsung", price: 80000, rating: 5 },
+    { name: "iPhone 13", brand: "Apple", price: 60000, rating: 4 }
+];
+
+function displayProducts(list) {
+    let output = "";
+    list.forEach(product => {
+        output += `
+            <div class="card">
+                <h4>${product.name}</h4>
+                <p>Brand: ${product.brand}</p>
+                <p>Price: ₹${product.price}</p>
+                <p>Rating: ${product.rating}★</p>
+            </div>
+        `;
+    });
+    document.getElementById("productList").innerHTML = output;
+}
+
+function applyFilters() {
+
+    let selectedBrands = [];
+    document.querySelectorAll("input[type='checkbox']:checked")
+        .forEach(cb => selectedBrands.push(cb.value));
+
+    let maxPrice = document.getElementById("priceFilter").value;
+    let minRating = document.getElementById("ratingFilter").value;
+    let sortOption = document.getElementById("sortOption").value;
+
+    let filtered = products.filter(product => {
+        return (selectedBrands.length === 0 || selectedBrands.includes(product.brand)) &&
+               (maxPrice === "" || product.price <= maxPrice) &&
+               (product.rating >= minRating);
+    });
+
+    if (sortOption === "low") {
+        filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "high") {
+        filtered.sort((a, b) => b.price - a.price);
+    }
+
+    displayProducts(filtered);
+}
+
+displayProducts(products);
+</script>
+
+</body>
+</html>

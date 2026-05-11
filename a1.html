@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Motivational Quote Slider</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        .card {
+            background: white;
+            color: black;
+            width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            font-size: 18px;
+            transition: 0.5s;
+        }
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1> have a nice Day</h1>
+
+<h2>✨ Motivational Quote Slider</h2>
+
+<button onclick="filterQuotes('All')">All</button>
+<button onclick="filterQuotes('Success')">Success</button>
+<button onclick="filterQuotes('Study')">Study</button>
+
+<div id="output"></div>
+
+<script>
+const quotes = [
+    {text: "Success is not final, failure is not fatal.", category: "Success"},
+    {text: "Study hard, dream big.", category: "Study"},
+    {text: "Push yourself because no one else will.", category: "Success"},
+    {text: "Education is the key to success.", category: "Study"},
+    {text: "Believe in yourself.", category: "Success"}
+];
+
+let filteredQuotes = quotes;
+let index = 0;
+
+function filterQuotes(type) {
+
+    // 1️⃣ filter()
+    if(type === "All") {
+        filteredQuotes = quotes;
+    } else {
+        filteredQuotes = quotes.filter(q => q.category === type);
+    }
+
+    index = 0;
+    showQuotes();
+}
+
+function showQuotes() {
+    document.getElementById("output").innerHTML = "";
+
+    // 2️⃣ map()
+    const quoteCards = filteredQuotes.map(q => 
+        `<div class="card">${q.text}<br><small>${q.category}</small></div>`
+    );
+
+    function displayNext() {
+        if(index < quoteCards.length) {
+            document.getElementById("output").innerHTML = quoteCards[index];
+            index++;
+
+            // 3️⃣ setTimeout()
+            setTimeout(displayNext, 5000);
+        }
+    }
+
+    displayNext();
+}
+
+showQuotes();
+</script>
+
+</body>
+</html>

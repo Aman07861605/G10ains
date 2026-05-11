@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body bgcolor>
+
+<h3>Discounted Products</h3>
+<div id="output"></div>
+
+<script>
+let products = [
+    {name: "Laptop", price: 50000},
+    {name: "Mouse", price: 500},
+    {name: "Phone", price: 30000},
+    {name: "Pen", price: 50}
+];
+
+// filter() → price above 1000
+let costly = products.filter(p => p.price > 1000);
+
+// map() → apply 20% discount
+let discounted = costly.map(p => ({
+    name: p.name,
+    newPrice: p.price * 0.8
+}));
+
+let i = 0;
+
+function showProducts() {
+    if (i < discounted.length) {
+        document.getElementById("output").innerHTML += 
+            discounted[i].name + " → ₹" + discounted[i].newPrice + "<br>";
+        i++;
+        setTimeout(showProducts, 1000); 
+        // 1 sec delay
+    }
+}
+
+showProducts();
+</script>
+
+</body>
+</html>
